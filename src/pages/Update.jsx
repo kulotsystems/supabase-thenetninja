@@ -9,6 +9,7 @@ const Update = () => {
     const [title , setTitle ] = useState('');
     const [method, setMethod] = useState('');
     const [rating, setRating] = useState('');
+    const [formError, setFormError] = useState(null);
 
     useEffect(() => {
         const fetchSmoothie = async () => {
@@ -32,10 +33,36 @@ const Update = () => {
         fetchSmoothie().then(r => console.log('fetched...'));
     }, [id, navigate]);
 
+    const handleSubmit = async (e) => {
+        e.preventDefault();
+
+        if(!title || !method || !rating) {
+            setFormError({
+                message: 'Please fill in all the fields correctly.'
+            });
+            return false;
+        }
+
+        const { data, error } = await supabase
+            .from('smoothies')
+            .update({ title, method, rating })
+            .eq('id', id)
+            .select()
+
+        if(error) {
+            setFormError(error);
+        }
+
+        if(data) {
+            setFormError(null);
+            navigate('/');
+        }
+    };
+
 
     return (
         <div className="page update">
-            <form>
+            <form onSubmit={handleSubmit}>
                 <label htmlFor="title">Title:</label>
                 <input
                     type="text"
@@ -61,6 +88,8 @@ const Update = () => {
 
                 <button>Update Smoothie Recipe</button>
                 <button className="cancel" onClick={() => navigate('/')}>Cancel</button>
+
+                {formError && (<p className="error">{formError.message}</p>)}
             </form>
         </div>
     );
