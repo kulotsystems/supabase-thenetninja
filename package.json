@@ -10,6 +10,7 @@
     "rename-index": "node -e \"require('fs').rename('dist/index.html', 'dist/404.html', function(err) { if (err) console.log(err); console.log('index.html successfully renamed to 404.html') })\""
   },
   "dependencies": {
+    "@supabase/supabase-js": "^2.2.3",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
     "react-router": "^6.6.1",
