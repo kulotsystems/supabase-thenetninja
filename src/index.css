@@ -92,3 +92,8 @@ form button {
     font-family: 'Poppins', sans-serif;
     cursor: pointer;
 }
+form button.cancel {
+    background: #fff;
+    color: var(--primary);
+    margin-left: 5px;
+}

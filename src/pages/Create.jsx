@@ -61,6 +61,7 @@ const Create = () => {
                 />
 
                 <button>Create Smoothie Recipe</button>
+                <button className="cancel" onClick={() => navigate('/')}>Cancel</button>
 
                 {formError && (<p className="error">{formError.message}</p>)}
             </form>
