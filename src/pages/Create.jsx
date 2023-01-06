@@ -1,7 +1,7 @@
 const Create = () => {
 
     return (
-        <div>
+        <div className="page create">
             <h2>Create</h2>
         </div>
     );
