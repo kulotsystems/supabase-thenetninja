@@ -1,7 +1,7 @@
 import { Link } from 'react-router-dom';
 import supabase from '../config/supabaseClient.js';
 
-const SmoothieCard = ({ smoothie }) => {
+const SmoothieCard = ({ smoothie, deleteSmoothie }) => {
 
     const handleDelete = async () => {
         if(confirm(`Delete ${smoothie.title}?`)) {
@@ -16,7 +16,7 @@ const SmoothieCard = ({ smoothie }) => {
             }
 
             if(data) {
-                window.location.reload();
+                deleteSmoothie(smoothie.id);
             }
         }
     }
