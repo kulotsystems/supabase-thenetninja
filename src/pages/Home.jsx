@@ -7,6 +7,7 @@ import SmoothieCard from '../components/SmoothieCard.jsx';
 const Home = () => {
     const [fetchError, setFetchError] = useState(null);
     const [smoothies, setSmoothies]   = useState(null);
+    const [orderBy, setOrderBy] = useState('created_at');
 
     const handleDelete = (id) => {
         setSmoothies(smoothies.filter(smoothie => smoothie.id !== id));
@@ -16,7 +17,8 @@ const Home = () => {
         const fetchSmoothies = async () => {
             const { data, error } = await supabase
                 .from('smoothies')
-                .select();
+                .select()
+                .order(orderBy, { ascending: false })
 
             if(error) {
                 setFetchError(error);
@@ -31,7 +33,7 @@ const Home = () => {
         };
 
         fetchSmoothies().then(() => console.log('fetched...'));
-    }, []);
+    }, [orderBy]);
 
     return (
         <div className="page home">
@@ -43,13 +45,24 @@ const Home = () => {
             )}
 
             {smoothies && (
-
-                /* order by buttons */
-
-                <div className="smoothie-grid">
-                    {smoothies.map((smoothie) => (
-                        <SmoothieCard key={smoothie.id} smoothie={smoothie} deleteSmoothie={handleDelete}/>
-                    ))}
+                <div className="smoothies">
+                    <div className="order-by">
+                        <p>Order by:</p>
+                        <button onClick={() => setOrderBy('created_at')} className={orderBy === 'created_at' ? 'active' : ''}>
+                            Time Created
+                        </button>
+                        <button onClick={() => setOrderBy('title')} className={orderBy === 'title' ? 'active' : ''}>
+                            Title
+                        </button>
+                        <button onClick={() => setOrderBy('rating')} className={orderBy === 'rating' ? 'active' : ''}>
+                            Rating
+                        </button>
+                    </div>
+                    <div className="smoothie-grid">
+                        {smoothies.map((smoothie) => (
+                            <SmoothieCard key={smoothie.id} smoothie={smoothie} deleteSmoothie={handleDelete}/>
+                        ))}
+                    </div>
                 </div>
             )}
         </div>
